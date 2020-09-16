@@ -12,4 +12,4 @@ NI_gene_annotation.R requires 2 files
 # Output
 A two-column csv file that contains gene ID and network inference annotation. Annotations are formatted as follows: 
 
-   gene ID | module | kME value | Associations: (ME-trait correlation) trait1; (ME-trait 288correlation) trait2  
+   gene ID | module | kME value | Associations: (ME-trait correlation) trait1; (ME-trait correlation) trait2  
