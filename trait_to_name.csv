@@ -1,0 +1,22 @@
+﻿tr,name
+Aresp,stimulus response
+Alateraliz,lateralization to stimulus
+AReacDist_cm,distance between visual stimulus and larva at response initiation
+ALatency_ms,response latency
+AResp_dist_cm,distance traveled in response to acoustic stimulus
+AResp_spd_mms,mean speed in response to acoustic stimulus
+AResp_MX_spd,max speed in response to acoustic stimulus
+At2mxspd_s,time to max speed in response to acoustic stimulus
+Aresp_dur_s,response duration to acoustic stimulus
+Amx_accel,max acceleration in response to acoustic stimulus
+At2mxaccel,time to max acceleration in response to acoustic stimulus
+VResp_dist_cm,distance traveled in response to visual stimulus
+VResp_spd_mms,mean speed in response to visual stimulus
+VMeanAngSpd,mean angular speed in response to visual stimulus
+VMeanMeander,mean meandering in response to visual stimulus
+VMeanMobility,mean mobility in response to visual stimulus
+RDistanceMoved_cm,routine swimming distance traveled
+RMeanSpeed,routine swimming mean speed
+RMeanAngularSpeed,routine swimming mean angular speed
+RMeanMeander,routine swimming mean meandering
+RMeanMobility,routine swimming mean mobility
