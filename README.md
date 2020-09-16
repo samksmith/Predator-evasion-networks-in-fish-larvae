@@ -12,4 +12,13 @@ NI_gene_annotation.R requires 2 files
 # Output
 A two-column csv file that contains gene ID and network inference annotation. Annotations are formatted as follows: 
 
-   gene ID | module | kME value | Associations: (ME-trait correlation) trait1; (ME-trait correlation) trait2  
+   gene ID | module | kME value | Associations: (ME-trait correlation) trait1; (ME-trait correlation) trait2 
+
+# Files
+NI_gene_annotation.R - R script for creating network inference gene annotations
+
+Reddrum_annotations.csv - two column file with gene ID and network inference annotations for red drum larvae
+
+module-trait_NoPCs.csv - Lists significant correlations between modules and measured traits for red drum dataset (module, trait, correlation, p-value).
+
+trait_to_name.csv - associates trait names with human readable trait descriptions
