@@ -19,6 +19,8 @@ NI_gene_annotation.R - R script for creating network inference gene annotations
 
 Reddrum_annotations.csv - two column file with gene ID and network inference annotations for red drum larvae
 
+reddrum_NIannotation_Eggnog.csv - three column file with gene ID, network inference annotations, and EggNOG-derived annotations
+
 module-trait_NoPCs.csv - Lists significant correlations between modules and measured traits for red drum dataset (module, trait, correlation, p-value).
 
 trait_to_name.csv - associates trait names with human readable trait descriptions
