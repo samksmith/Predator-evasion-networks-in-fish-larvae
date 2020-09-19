@@ -15,16 +15,36 @@ A two-column csv file that contains gene ID and network inference annotation. An
    gene ID | module | kME value | Associations: (ME-trait correlation) trait1; (ME-trait correlation) trait2 
 
 # Files
-NI_gene_annotation.R - R script for creating network inference gene annotations
+NI_gene_annotation.R - R script for creating network inference gene annotations.
+
+allcounts_redDrum.txt - raw counts data for red drum dataset.
+
+color_allrem.csv - module csv files for the red drum dataset. These modules were all significantly associated (p<=0.01) with at least one measured trait.
+
+EggNOG2GO.txt - Pipeline for creating eggNOG gene GO annotations.
+
+fuimanfish_metadata.csv - One of two datasets containing measured traits and information about red drum larvae.
 
 ge_pipeline_reddrum.R - Gene expression analysis pipeline used on red drum dataset. Majority of the pipeline was originally created by Mikhail Matz (https://github.com/z0on) and modified by Sam Smith.
+
+genetic_relatedness.R - Pipeline for detecting relatedness between red drum larvae. Majority of the pipeline was originally created by Mikhail Matz (https://github.com/z0on) and modified by Sam Smith.
+
+mito_traits.covMat - covariance matrix based on single read resampling for mitochondrial genes in the red drum dataset.
+
+mito_traits.ibsMat - identity-by-state matrix for mitochondrial genes in the red drum dataset.
+
+module-trait_NoPCs.csv - Lists significant correlations between modules and measured traits for red drum dataset (module, trait, correlation, p-value).
+
+mom_id_fuimanfish.txt - Pipeline for making covariance and identity-by-state matrices for mitochondrial genes and all genes.
+
+myresults.covMat - covariance matrix based on single read resampling for all genes in the red drum dataset.
+
+myresults.ibsMat - identity-by-state matrix for all genes in the red drum dataset.
+
+performance_reorg_042120.csv - One of two datasets containing measured traits from red drum larvae dataset.
 
 Reddrum_annotations.csv - two column file with gene ID and network inference annotations for red drum larvae
 
 reddrum_NIannotation_Eggnog.csv - three column file with gene ID, network inference annotations, and EggNOG-derived annotations
 
-module-trait_NoPCs.csv - Lists significant correlations between modules and measured traits for red drum dataset (module, trait, correlation, p-value).
-
 trait_to_name.csv - associates trait names with human readable trait descriptions
-
-color_allrem.csv - module csv files for the red drum dataset. These modules were all significantly associated (p<=0.01) with at least one measured trait.
