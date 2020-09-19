@@ -1,0 +1,23 @@
+################# Extract GO and KOG-class annotations from eggNOG-mapper output ##############
+
+# extracting speciic annotation data (gene names, GO, and KOG) out of eggNOG-mapper output tables
+# generates annotations compatible with rank-based functional summary methods, KOGMWU and GO_MWU
+
+# extracting Gene Ontology annotations for GO_MWU:
+awk -F "\t" 'BEGIN {OFS="\t" }{print $1,$6 }' redDrum_PRO.fas.emapper.annotations | grep GO | perl -pe 's/,/;/g' >redDrum_seq2go_emapper.tab
+awk 'BEGIN {FS=OFS="\t"} NR==FNR {a[$1] = $2;next} {print a[$1],$2}' redDrum_seq2iso.tab redDrum_seq2go_emapper.tab > redDrum_iso2go_emapper.tab
+
+# remove repeated entries
+perl nrify_GOtable.pl redDrum_iso2go_emapper.tab >redDrum_iso2go_emapperNR.tab
+
+# extracting KOG annotations for KOGMWU:
+#  KOG classes (single-letter):
+awk -F "\t" 'BEGIN {OFS="\t" }{print $1,$12 }' redDrum_PRO.fas.emapper.annotations | grep -Ev "[,#S]" >rd_gene2kogClass1.tab
+# converting single-letter KOG classes to text understood by KOGMWU package (must have kog_classes.txt file in the same dir):
+awk 'BEGIN {FS=OFS="\t"} NR==FNR {a[$1] = $2;next} {print $1,a[$2]}' kog_classes.txt rd_gene2kogClass1.tab > redDrum_gene2kogClass.tab
+
+# extract gene names:
+awk -F "\t" 'BEGIN {OFS="\t" }{print $1,$13 }' redDrum_PRO.fas.emapper.annotations | grep -Ev "\tNA" >redDrum_gene2geneName.tab
+
+# make iso2gene file
+awk 'BEGIN {FS=OFS="\t"} NR==FNR {a[$1] = $2;next} {print a[$1],$2}' redDrum_seq2iso.tab redDrum_gene2geneName.tab > redDrum_iso2gene_emapper.tab
