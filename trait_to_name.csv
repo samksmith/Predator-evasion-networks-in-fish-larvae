@@ -20,3 +20,4 @@ RMeanSpeed,routine swimming mean speed
 RMeanAngularSpeed,routine swimming mean angular speed
 RMeanMeander,routine swimming mean meandering
 RMeanMobility,routine swimming mean mobility
+Time_from_Last_min,time between assay and RNA collection
