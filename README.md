@@ -4,7 +4,7 @@ Samantha K. Smith, UT Austin, samksmith@utexas.edu
 This method uses the output of gene expression analyses to create contextual and functional annotation of genes within relevant networks. We used this method on gene expression data from red drum larvae. This project contains scripts for generating annotations as well as the red drum behavioral data and associated annotation files. Red drum reads used in this study will be available at the Short Read Archive (NCBI SRA) soon.
 
 # Input
-NI_gene_annotation.R requires 2 files
+Network_gene_annotation.R requires 2 types of files.
 1. Module csv files. Genes within the module have a listed module membership value (correlation between gene and module eigengene) for genes within the module and a "0" for all other genes.
 
 2. Module-trait table. Lists significant correlations between modules and measured traits (module, trait, correlation, p-value).
@@ -15,7 +15,7 @@ A two-column csv file that contains gene ID and annotation. Annotations are form
    gene ID | module | kME value | Associations: (ME-trait correlation) trait1; (ME-trait correlation) trait2 
 
 # Files
-NI_gene_annotation.R - R script for creating network inference gene annotations.
+Network_gene_annotation.R - R script for creating network based gene annotations.
 
 allcounts_redDrum.txt - raw counts data for red drum dataset.
 
@@ -23,7 +23,7 @@ color_allrem.csv - module csv files for the red drum dataset. These modules were
 
 EggNOG2GO.txt - Pipeline for creating eggNOG gene GO annotations.
 
-fuimanfish_metadata.csv - One of two datasets containing measured traits and information about red drum larvae.
+fuimanfish_metadata.csv - One of three datasets containing measured traits and information about red drum larvae.
 
 ge_pipeline_reddrum.R - Gene expression analysis pipeline used on red drum dataset. Majority of the pipeline was originally created by Mikhail Matz (https://github.com/z0on) and modified by Sam Smith.
 
@@ -41,10 +41,14 @@ myresults.covMat - covariance matrix based on single read resampling for all gen
 
 myresults.ibsMat - identity-by-state matrix for all genes in the red drum dataset.
 
-performance_reorg_042120.csv - One of two datasets containing measured traits from red drum larvae dataset.
+performance_reorg_042120.csv - One of three datasets containing measured traits from red drum larvae dataset.
 
-Reddrum_annotations.csv - two column file with gene ID and network inference annotations for red drum larvae
+reddrum_annotations.csv - two column file with gene ID and network inference annotations for red drum larvae.
 
-reddrum_NIannotation_Eggnog.csv - three column file with gene ID, network inference annotations, and EggNOG-derived annotations
+module-trait_NoPCs.csv - List of significant correlations between modules and traits for the red drum dataset.
+
+Network_EggNOG_annotations.csv - three column file with gene ID, network-derived annotations, and EggNOG-derived annotations.
+
+traits_and_time.csv - One of three datasets containing measured traits from red drum. Includes timing between behavioral assay and tissue collection.
 
 trait_to_name.csv - associates trait names with human readable trait descriptions
