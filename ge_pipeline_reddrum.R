@@ -102,6 +102,9 @@ library(vegan)
 library(ape)
 
 # import file that contains the relatedness group designations from ibs matrix pca (genetic groupings)
+# to get this first follow relatedness.txt which tells you how to generate covariance and identity by state matrices for mitochondrial genes only 
+# as well as for all genes (mito and allgenes files)
+# then, use genetic_relatedness.R to find relatedness groups using PCA and hierarchical clustering. Output from this is grp_geno.csv
 grp_id=read.csv("grp_geno.csv")
 row.names(grp_id)=grp_id$X
 table(grp_id$X %in% traits$Matz_Number)
