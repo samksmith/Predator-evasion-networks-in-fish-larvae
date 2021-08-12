@@ -1,7 +1,7 @@
-# Network-associated-annotations
+# Predator-evasion-networks-in-fish-larvae
 Samantha K. Smith, UT Austin, samksmith@utexas.edu
 
-This method uses the output of gene expression analyses to create contextual and functional annotation of genes within relevant networks. We used this method on gene expression data from red drum larvae. This project contains scripts for generating annotations as well as the red drum behavioral data and associated annotation files. Red drum reads used in this study will be available at the Short Read Archive (NCBI SRA) soon.
+This is the repository of data and scripts for a forthcoming paper analyzing RNA sequencing data from red drum larvae that underwent startle assays. Red drum reads used in this study will be available at the Short Read Archive (NCBI SRA) soon.
 
 # Input
 Network_gene_annotation.R requires 2 types of files.
@@ -15,7 +15,6 @@ A two-column csv file that contains gene ID and annotation. Annotations are form
    gene ID | module | kME value | Associations: (ME-trait correlation) trait1; (ME-trait correlation) trait2 
 
 # Files
-Network_gene_annotation.R - R script for creating network based gene annotations.
 
 allcounts_redDrum.txt - raw counts data for red drum dataset.
 
@@ -43,11 +42,7 @@ myresults.ibsMat - identity-by-state matrix for all genes in the red drum datase
 
 performance_reorg_042120.csv - One of three datasets containing measured traits from red drum larvae dataset.
 
-reddrum_annotations.csv - two column file with gene ID and network inference annotations for red drum larvae.
-
 module-trait_NoPCs.csv - List of significant correlations between modules and traits for the red drum dataset.
-
-Network_EggNOG_annotations.csv - three column file with gene ID, network-derived annotations, and EggNOG-derived annotations.
 
 traits_and_time.csv - One of three datasets containing measured traits from red drum. Includes timing between behavioral assay and tissue collection.
 
