@@ -17,15 +17,15 @@ ge_pipeline_reddrum.R - Gene expression analysis pipeline used on red drum datas
 
 genetic_relatedness.R - Pipeline for detecting relatedness between red drum larvae. Pipeline was originally created by Mikhail Matz (https://github.com/z0on) and modified by Sam Smith.
 
-mito_traits.covMat - covariance matrix based on single read resampling for mitochondrial genes in the red drum dataset.
+mito.covMat - covariance matrix based on single read resampling for mitochondrial genes in the red drum dataset.
 
-mito_traits.ibsMat - identity-by-state matrix for mitochondrial genes in the red drum dataset.
+mito.ibsMat - identity-by-state matrix for mitochondrial genes in the red drum dataset.
 
-mom_id_fuimanfish.txt - Pipeline for making covariance and identity-by-state matrices for mitochondrial genes and all genes.
+relatedness.txt - Pipeline for making covariance and identity-by-state matrices for mitochondrial genes and all genes.
 
-myresults.covMat - covariance matrix based on single read resampling for all genes in the red drum dataset.
+allgenes.covMat - covariance matrix based on single read resampling for all genes in the red drum dataset.
 
-myresults.ibsMat - identity-by-state matrix for all genes in the red drum dataset.
+allgenes.ibsMat - identity-by-state matrix for all genes in the red drum dataset.
 
 performance_reorg_042120.csv - One of three datasets containing measured traits from red drum larvae dataset.
 
