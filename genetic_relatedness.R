@@ -5,8 +5,8 @@ bams=read.table("bams_onlytraits")[,1] # list of bam files for samples that had 
 library(vegan)
 library(stringr)
 library(ggplot2)
-co = as.matrix(read.table("mito_traits.covMat")) # covariance based on single-read resampling for mitochondrial genes
-co.geno = as.matrix(read.table("myresult.covMat")) # covariance based on single-read resampling for all genes
+co = as.matrix(read.table("mito.covMat")) # covariance based on single-read resampling for mitochondrial genes
+co.geno = as.matrix(read.table("allgenes.covMat")) # covariance based on single-read resampling for all genes
 ids = read.table("bams")[,1] 
 nam = gsub(".fq.trim.bam","",ids)
 names=gsub(".fq.trim.bam","",bams)
@@ -60,8 +60,8 @@ write.csv(cov_geno_scores, file = "cov_geno_scores.csv")
 # clustering / PCoA based on identity by state (IBS) based on single read resampling
 # (for low and/or uneven coverage)
 
-ma = as.matrix(read.table("mito_traits.ibsMat"))
-ma.geno = as.matrix(read.table("myresult.ibsMat"))
+ma = as.matrix(read.table("mito.ibsMat"))
+ma.geno = as.matrix(read.table("allgenes.ibsMat"))
 nam = gsub(".fq.trim.bam","",ids)
 names=gsub(".fq.trim.bam","",bams)
 dimnames(ma)=list(names,names)
