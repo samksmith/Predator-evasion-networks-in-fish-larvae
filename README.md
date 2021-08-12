@@ -3,17 +3,6 @@ Samantha K. Smith, UT Austin, samksmith@utexas.edu
 
 This is the repository of data and scripts for a forthcoming paper analyzing RNA sequencing data from red drum larvae that underwent startle assays. Red drum reads used in this study will be available at the Short Read Archive (NCBI SRA) soon.
 
-# Input
-Network_gene_annotation.R requires 2 types of files.
-1. Module csv files. Genes within the module have a listed module membership value (correlation between gene and module eigengene) for genes within the module and a "0" for all other genes.
-
-2. Module-trait table. Lists significant correlations between modules and measured traits (module, trait, correlation, p-value).
-
-# Output
-A two-column csv file that contains gene ID and annotation. Annotations are formatted as follows: 
-
-   gene ID | module | kME value | Associations: (ME-trait correlation) trait1; (ME-trait correlation) trait2 
-
 # Files
 
 allcounts_redDrum.txt - raw counts data for red drum dataset.
