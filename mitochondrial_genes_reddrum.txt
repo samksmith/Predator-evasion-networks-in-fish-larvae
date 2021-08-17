@@ -1,0 +1,8 @@
+ c25602_g1_i1 gene=isogroup25602                                     6813    0.0  
+  c19892_g2_i1 gene=isogroup19892                                     5546    0.0  
+  c20681_g1_i1 gene=isogroup20681                                     5417    0.0  
+  c18287_g1_i1 gene=isogroup18287                                     5382    0.0  
+  c35540_g1_i1 gene=isogroup35540                                     1738    0.0  
+  c1686_g1_i1 gene=isogroup1686                                       1738    0.0  
+  c24121_g1_i1 gene=isogroup24121                                     1670    0.0  
+  c19892_g1_i1 gene=isogroup19892                                     1356    0.0 
