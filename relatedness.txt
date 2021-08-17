@@ -1,5 +1,5 @@
 nano mito_genes
-# from list_genes mitochondrial_fuimanfish.txt
+# above list generated from mitochondrial_genes_fuimanfish.txt
 
 # ANGSD command to make covariance and identity-by-state matrices for only mitochondrial genes
 FILTERS="-uniqueOnly 1 -remove_bads 1 -minMapQ 20 -minQ 30 -minInd 65 -snp_pval 1e-5 -minMaf 0.1 -dosnpstat 1 -doHWE 1 -skipTriallelic 1"
@@ -11,4 +11,4 @@ FILTERS="-uniqueOnly 1 -remove_bads 1 -minMapQ 20 -minQ 30 -minInd 65 -snp_pval 
 TODO="-doMajorMinor 1 -doMaf 1 -doCounts 1 -makeMatrix 1 -doIBS 1 -doCov 1 -doGeno 32 -doVcf 1 -doPost 1 -doGlf 2"
 angsd -b bams_traits -GL 1 $FILTERS $TODO -P 1 -out geno_traits
 
-# scp .ibsMat and .covMat files to plot PCA
+# use .ibsMat and .covMat files to plot PCA
