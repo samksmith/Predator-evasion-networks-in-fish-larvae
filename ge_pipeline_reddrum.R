@@ -1,4 +1,5 @@
 # assembling data, running outlier detection, and fitting models
+setwd("~/Desktop/Reddrum_final")
 
 library(DESeq2)
 library(arrayQualityMetrics)
@@ -6,9 +7,9 @@ library(arrayQualityMetrics)
 #read in counts
 counts = read.table("allcounts_redDrum.txt")
 table(is.na(counts))
-# how many genes do we have total?
-nrow(counts)
-ncol(counts)
+# how many genes we have total?
+nrow(counts) #29252
+ncol(counts) #88
 names(counts)
 # remove nonsamples
 counts=counts[,-c(83:88)]
@@ -24,7 +25,7 @@ counts=counts[-vector]
 # apply(table, 1=rows 2=columns, what apply to it)
 means=apply(counts,1,mean)
 #how many time above is satisfied
-table(means>=5)
+table(means>=5) # false = 11749; true = 17503
 hist(log(means,10)) # histogram on log base 10
 
 # only include genes with mean count >= 5
@@ -52,6 +53,7 @@ save(dds,rl,countData,vsd,a.con,file="vsd_redDrum_final.RData")
 #install.packages("WGCNA",dependencies=TRUE,repos="http://cran.us.r-project.org")
 #,repos="http://cran.us.r-project.org"
 
+
 library(WGCNA)
 library(flashClust)
 library(ape)
@@ -59,7 +61,10 @@ options(stringsAsFactors=FALSE)
 #allowWGCNAThreads()
 
 #--------------------------------
+
+getwd()
 # run this if you are in /KOG or /GO or /heatmaps 
+setwd("~/Desktop/RedDrum_final")
 lnames=load("vsd_redDrum_final.RData")
 lnames # "dds" "rl" "countData" vsd"  "a.con" # log-transformed variance-stabilized gene expression, and table or experimental conditions
 datt=t(vsd)
@@ -76,6 +81,7 @@ snames=gsub("rd|X","",colnames(vsd))
 table(snames %in% traits$Matz_Number) # all true
 table(traits$Matz_Number %in% traits$Matz_Number)
 traits=traits[snames,]
+# make sure that at least in column that gives names, th
 traits$Matz_Number=snames
 save(vsd,datt,traits,file="wgcnaData_fuimanfish.RData")
 
@@ -87,7 +93,7 @@ vsdn=vsd
 # make heatmap
 colnames(vsdn)=paste(traits[,1])
 annotation_col = data.frame(
-                    Group = traits$Replicate)
+                    Group = traits$Batch)
 rownames(annotation_col) = colnames(vsdn)
 ann_colors = list(
   Group = c("1" = "#FFB266", "2" = "#99CCFF"))
@@ -97,25 +103,23 @@ pheatmap(cor(vsdn), annotation_col = annotation_col,
          annotation_colors = ann_colors,
          fontsize = 8)
 
-# Principle coordinate analysis (pcoa)
+# Principle coordinant analysis
 library(vegan)
 library(ape)
 
 # import file that contains the relatedness group designations from ibs matrix pca (genetic groupings)
-# to get this first follow relatedness.txt which tells you how to generate covariance and identity by state matrices for mitochondrial genes only 
-# as well as for all genes (mito and allgenes files)
-# then, use genetic_relatedness.R to find relatedness groups using PCA and hierarchical clustering. Output from this is grp_geno.csv
 grp_id=read.csv("grp_geno.csv")
 row.names(grp_id)=grp_id$X
 table(grp_id$X %in% traits$Matz_Number)
-# make a table of relevant covariates = genetic group, replicate group, and size
-covariates=data.frame(cbind("group_id"=grp_id$grp_id,"rep"=traits$Replicate,"size"=traits$Size_mm))
+# make a table of relevant covariates = genetic group, batch group, and size
+covariates=data.frame(cbind("group_id"=grp_id$grp_id,"batch"=traits$Batch,"size"=traits$Size_mm))
 
 adonis(datt ~ covariates[,1] + covariates[,3], data = covariates)
 
 # pcoa based on manhattan distances
-# divide by 1000 because manhattan dist are sum of all fold changes among all genes - large number
+# divide by 1000 bc manhattan dist are sum of all fold changes among all genes - large number
 dds.pcoa=pcoa(dist(t(vsd),method="manhattan")/1000)
+#dds.pcoa_batchrem=pcoa(dist(t(vsd_batchrem),method="manhattan")/1000)
 scores=dds.pcoa$vectors
 
 # how many good PC's we have? Compared to random ("broken stick") model
@@ -126,15 +130,14 @@ points(dds.pcoa$values$Broken_stick,col="red",pch=3)
 #fit covariates onto PCA
 vectors=envfit(scores,covariates,choices=c(1,2)) # how covariates map onto 1st and 2nd PCo
 vectors2=envfit(scores,covariates,choices=c(2,3)) # how covariates map onto 2nd and 3rd PCo
-# plotting PCoA (change numbers to plot PCo1 and 2 or 2 and 3)
-# find variance explained by each pco by looking at dds.pcoa object
+# plotting PCoA
 quartz()
 plot(scores[,2], scores[,3],
      col=ifelse(traits$Assay == "visual", "#FF66B3", ifelse(traits$Assay == "acoustic", "#66FFB2", NA)),
      xlab = "PCo 2 (8.6%)", ylab = "PCo 3 (3.9%)", pch=16) 
 legend("bottomright", title = "Assay", legend = c("visual", "acoustic"), col = c('#FF66B3', '#66FFB2'), 
     pch = c(19,19), bty = "n", pt.cex = 0.7, cex = 1, text.col = "black", horiz = F, inset = c(0, 1))
-plot(vectors2) # make sure put appropriate vector based on which PCo's displaying
+plot(vectors2) # make sure put appropriate vector based on which PCo's mapping!
 
 # record the scores from PC1 and 2 into trait table
 traits$gpc1=scores[,1]
@@ -152,7 +155,7 @@ datt=t(vsd2)
 vsd=vsd2
 save(vsd,datt,traits,file="wgcnaData_fuimanfish_allrem_final.RData")
 
-#-------------- PCA after covariate removal -- check that removed effect of replicate, size, and grp_id
+#-------------- PCA after covariate removal -- check that removed effect of batch, size, and grp_id
 load("wgcnaData_fuimanfish_allrem_final.RData")
 library(vegan)
 library(ape)
@@ -162,14 +165,14 @@ dds.pcoa=capscale(dist(t(vsd),method="manhattan")~1)
 quartz()
 plot(dds.pcoa$CA$eig) # how many PCs are useful?
 
-covariates=data.frame(cbind("grp_id"=traits$grp_id,"rep"=traits$Replicate,"size"=traits$Size_mm))
+covariates=data.frame(cbind("grp_id"=traits$grp_id,"batch"=traits$Batch,"size"=traits$Size_mm))
 row.names(covariates)=traits$Matz_Number
 vectors=envfit(dds.pcoa,covariates)
-# if you print vectors you see that there is no relationship b/t vectors and pco values anymore
+# if you print vectors you see that there is no relationship b/t vectors and pc values anymore
 # Still see large vectors on plot bc they are automatically rescaled to be visible
 quartz()
 plot(dds.pcoa$CA$u[,1:2],
-     col=ifelse(traits$Replicate == "1", "#FFB266", ifelse(traits$Replicate == "2", "#99CCFF", NA)),
+     col=ifelse(traits$Batch == "1", "#FFB266", ifelse(traits$Batch == "2", "#99CCFF", NA)),
      xlab = "PCo 1 (11.2%)", ylab = "PCo 2 (5.2%)", pch=16)
 legend("bottomright", title = "Assay", legend = c("visual", "acoustic"), col = c('#FF66B3', '#66FFB2'), 
        pch = c(19,19), bty = "n", pt.cex = 0.7, cex = 1, text.col = "black", horiz = F, inset = c(0, 1))
@@ -233,7 +236,7 @@ text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col="red")
 library(flashClust)
 library(ape)
 
-s.th=2.5 # re-specify according to previous section; chose value that corresponds with R^2 cut-off
+s.th=2.5 # re-specify according to previous section
 # calculating correlation or distance network adjacency from given expression data
 adjacency = adjacency(datt, power = s.th,type="signed");
 # calculates topological overlap matrix and corresponding dissimilarity from given adjacency matrix
@@ -369,15 +372,14 @@ print(data.frame(table(moduleColors))) # gives numbers of genes in each module
 
 save(MEs, geneTree, moduleLabels, moduleColors,traits,file="networkdata_signed_fuimanfish_1_final.RData")
 # if it was first pass with no module merging, this is where you examine your heatmap
-# and dendrogram of module eigengenes to see where you would like to set cut height (MEDissThres parameter) in the previous section
-# to merge modules that are telling the same story for your trait data
+# and dendrogram of module eigengenes to see where you would like to see 
+# where you woudl like to set cut height (MEDissThres parameter) in the previous section
+# to merge modules that are talling the same story for your trait data
 
 # good way to do it is to find a group of similar modules in the heat map and then see 
 # at which tree height they connect in the dendrogram.
 
 ############# scatterplots of gene significance (correlation-based) vs kME
-## these plots tell you whether genes that are more central (well-connected) in the network are
-# also more highly correlated with a particular trait
 library(WGCNA)
 load("wgcnaData_fuimanfish_allrem_final1.RData");
 load(file ="networkdata_signed_fuimanfish_1_final.RData")
@@ -442,7 +444,7 @@ library(WGCNA)
 load("wgcnaData_fuimanfish_allrem_final1.RData");
 load(file = "networkdata_signed_final.RData")
 
-# calculating module memberships for all genes for all modules
+# calculating modul memberships for all genes for all modules
 allkME =as.data.frame(signedKME(datt, MEs)) 
 names(allkME)=gsub("kME","",names(allkME))
 
@@ -493,15 +495,22 @@ quartz()
 pheatmap(hubs,scale="row",col=contrasting2,border_color=NA,treeheight_col=0,cex=0.7,cluster_rows=F)
 
 # GO_MWU uses continuous measure of significance (such as fold-change or -log(p-value) ) to identify GO categories that are significantly enriches with either up- or down-regulated genes. The advantage - no need to impose arbitrary significance cutoff.
+
 # If the measure is binary (0 or 1) the script will perform a typical "GO enrichment" analysis based Fisher's exact test: it will show GO categories over-represented among the genes that have 1 as their measure. 
+
 # On the plot, different fonts are used to indicate significance and color indicates enrichment with either up (red) or down (blue) regulated genes. No colors are shown for binary measure analysis.
+
 # The tree on the plot is hierarchical clustering of GO categories based on shared genes. Categories with no branch length between them are subsets of each other.
+
 # The fraction next to GO category name indicates the fracton of "good" genes in it; "good" genes being the ones exceeding the arbitrary absValue cutoff (option in gomwuPlot). For Fisher's based test, specify absValue=0.5. This value does not affect statistics and is used for plotting only.
+
 # Stretch the plot manually to match tree to text
+
 # Mikhail V. Matz, UT Austin, February 2015; matz@utexas.edu
+
 ################################################################
 # First, press command-D on mac or ctrl-shift-H in Rstudio and navigate to the directory containing scripts and input files. Then edit, mark and execute the following bits of code, one after another.
-setwd("")
+setwd("~/Desktop/RedDrum_final/GO_MWU-master_gPC1b_effect_final")
 input="blue_varincl_042120.csv" # two columns of comma-separated values: gene id, continuous measure of significance. To perform standard GO enrichment analysis based on Fisher's exact test, use binary measure (0 or 1, i.e., either sgnificant or not).
 goAnnotations="redDrum_iso2go_emapperNR.tab" # two-column, tab-delimited, one line per gene, multiple GO terms separated by semicolon. If you have multiple lines per gene, use nrify_GOtable.pl prior to running this script.
 goDatabase="go.obo" # download from http://www.geneontology.org/GO.downloads.ontology.shtml
@@ -545,7 +554,7 @@ library(flashClust)
 library(ape)
 options(stringsAsFactors=FALSE)
 
-# --------------- removing effects of gpc1b from data (replicate/grp_id and size already removed)
+# --------------- removing effects of gpc1b from data (batch/grp_id and size already removed)
 library(limma)
 load("vsd_traits_pcs_allrem_final.RData")
 # identify effect size of latent variable
@@ -557,7 +566,7 @@ datt=t(vsd2)
 vsd=vsd2
 save(vsd,datt,traits,file="wgcnaData_fuimanfish_fin.RData")
 
-#-------------- PCA after covariate removal -- check that removed effect of replicate, size, grp_id, and gpc1
+#-------------- PCA after covariate removal -- check that removed effect of batch, size, grp_id, and gpc1
 load("wgcnaData_fuimanfish_fin.RData")
 
 # Principle coordiante analysis
@@ -573,7 +582,7 @@ quartz()
 plot(dds.pcoa$values$Relative_eig) # find where eigengene info 
 points(dds.pcoa$values$Broken_stick,col="red",pch=3)
 
-covariates=data.frame(cbind("grp_id"=traits$grp_id,"rep"=traits$Replicate,"size"=traits$Size_mm,"gpc1"=traits$gpc1))
+covariates=data.frame(cbind("grp_id"=traits$grp_id,"batch"=traits$Batch,"size"=traits$Size_mm,"gpc1"=traits$gpc1))
 row.names(covariates)=traits$Matz_Number
 vectors=envfit(scores,covariates,choices=c(1,2))
 # plotting PCoA
@@ -605,7 +614,7 @@ traits=traits2
 save(vsd,datt,traits,file="wgcnaData_fuimanfish_final.RData")
 
 #################### WGCNA
-# Try different betas ("soft threshold") - power factor for calling connections between genes
+# Try different betas ("soft threshold") - power foactor for calling connections between genes
 library(WGCNA)
 load("wgcnaData_fuimanfish_final.RData")
 powers = c(seq(from = 1, to=10, by=0.5))
@@ -724,6 +733,45 @@ moduleGenePvalue = corPvalueStudent(moduleGeneCor, nSamples);
 moduleTraitCor = cor(MEs, traits, use = "p");
 moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples);
 modtraitpval = signif(moduleTraitPvalue, 1)
+# create a table with corr and p-values for traits that are significantly associated w modules (p<=0.01)
+# this table is required to make network inference annotations
+module = c()
+trait = c()
+correl = c()
+pval = c()
+for(row in 1:nrow(moduleTraitCor)){
+  for(col in 1:ncol(moduleTraitCor)){
+    if(modtraitpval[row,col] <= 0.01){
+     module = append(module, rownames(moduleTraitCor)[row])
+     trait = append(trait, colnames(moduleTraitCor)[col])
+     correl = append(correl, moduleTraitCor[row,col])
+     pval = append(pval, modtraitpval[row,col])
+    }
+  }
+}
+modTraitTable = cbind(module,trait,correl,pval)
+write.csv(modTraitTable,"module-trait_corr.csv", row.names = FALSE)
+
+# make module trait table without principle component variables (for network inference annotations)
+modTraitCorr = moduleTraitCor[,-c(1:6)]
+modTraitPval = modtraitpval[,-c(1:6)]
+mod = c()
+tr = c()
+cor = c()
+pv = c()
+for(row in 1:nrow(modTraitCorr)){
+  for(col in 1:ncol(modTraitCorr)){
+    if(modTraitPval[row,col] <= 0.01){
+      mod = append(mod, rownames(modTraitCorr)[row])
+      tr = append(tr, colnames(modTraitCorr)[col])
+      cor = append(cor, modTraitCorr[row,col])
+      pv = append(pv, modTraitPval[row,col])
+    }
+  }
+}
+modTraitNoPCs = cbind(mod,tr,cor,pv)
+rownames(modTraitNoPCs) = modTraitNoPCs[,1]
+write.csv(modTraitNoPCs, "module-trait_NoPCs.csv",row.names = FALSE)
 
 # module-trait correlations
 quartz()
@@ -889,12 +937,19 @@ quartz()
 pheatmap(hubs,scale="row",show_rownames=FALSE,col=contrasting2,border_color=NA,treeheight_col=0,cex=0.7,cluster_rows=F)
 
 # GO_MWU uses continuous measure of significance (such as fold-change or -log(p-value) ) to identify GO categories that are significantly enriches with either up- or down-regulated genes. The advantage - no need to impose arbitrary significance cutoff.
+
 # If the measure is binary (0 or 1) the script will perform a typical "GO enrichment" analysis based Fisher's exact test: it will show GO categories over-represented among the genes that have 1 as their measure. 
+
 # On the plot, different fonts are used to indicate significance and color indicates enrichment with either up (red) or down (blue) regulated genes. No colors are shown for binary measure analysis.
+
 # The tree on the plot is hierarchical clustering of GO categories based on shared genes. Categories with no branch length between them are subsets of each other.
+
 # The fraction next to GO category name indicates the fracton of "good" genes in it; "good" genes being the ones exceeding the arbitrary absValue cutoff (option in gomwuPlot). For Fisher's based test, specify absValue=0.5. This value does not affect statistics and is used for plotting only.
+
 # Stretch the plot manually to match tree to text
+
 # Mikhail V. Matz, UT Austin, February 2015; matz@utexas.edu
+
 ################################################################
 # First, press command-D on mac or ctrl-shift-H in Rstudio and navigate to the directory containing scripts and input files. Then edit, mark and execute the following bits of code, one after another.
 setwd("~/Desktop/RedDrum_final/GO_MWU_050620")
