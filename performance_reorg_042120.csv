@@ -1,4 +1,4 @@
-﻿Serial,Replicate,Test,Fish,Size_mm,Date,Aresp,Alateraliz,AReacDist_cm,ALatency_ms,AResp_dist_cm,AResp_spd_mms,AResp_MX_spd,At2mxspd_s,Aresp_dur_s,Amx_accel,At2mxaccel,VResp_dist_cm,VResp_spd_mms,VMeanAngSpd,VMeanMeander,VMeanMobility,RDistanceMoved_cm,RMeanSpeed,RMeanAngularSpd,RMeanMeander,RMeanMobility
+﻿Serial,Batch,Test,Fish,Size_mm,Date,Aresp,Alateraliz,AReacDist_cm,ALatency_ms,AResp_dist_cm,AResp_spd_mms,AResp_MX_spd,At2mxspd_s,Aresp_dur_s,Amx_accel,At2mxaccel,VResp_dist_cm,VResp_spd_mms,VMeanAngSpd,VMeanMeander,VMeanMobility,RDistanceMoved_cm,RMeanSpeed,RMeanAngularSpd,RMeanMeander,RMeanMobility
 147,2,Visual,3,10.705,41726,0,1,,,,,,,,,,5.52,2.54,590.97,-170.2,48.07,8.98,0.44,536.78,1604.84,18.18
 148,2,Visual,4,11.364,41726,1,1,7.08,854.2,,,,,,,,4.59,0.96,78.87,-457.92,24.41,45.99,1.38,16.67,-509.79,25.6
 151,2,Visual,7,10.835,41726,1,1,8.87,825,,,,,,,,9.23,2.45,15.84,389.52,49.08,18.7,0.56,-11.91,300.74,14.51
