@@ -5,8 +5,8 @@ bams=read.table("bams_onlytraits")[,1] # list of bam files for samples that had 
 library(vegan)
 library(stringr)
 library(ggplot2)
-co = as.matrix(read.table("mito.covMat")) # covariance based on single-read resampling for mitochondrial genes
-co.geno = as.matrix(read.table("allgenes.covMat")) # covariance based on single-read resampling for all genes
+co = as.matrix(read.table("mito_traits.covMat")) # covariance based on single-read resampling for mitochondrial genes
+co.geno = as.matrix(read.table("myresult.covMat")) # covariance based on single-read resampling for all genes
 ids = read.table("bams")[,1] 
 nam = gsub(".fq.trim.bam","",ids)
 names=gsub(".fq.trim.bam","",bams)
@@ -31,16 +31,18 @@ plot(pp0a$CA$eig)
 
 axes2plot=c(1,2)   # plotting PC 1 and 2
 quartz()
+par(mar = c(6, 6, 2, 2));
 cc=pp0 # using unconstrained analysis data (mitochondrial genes)
 cc1=pp0a # all genes
 # cluster into four groups
 k=kmeans(cc1$CA$u[,1:3],4)
-plot(cc,choices=axes2plot, type = 'n', xlab = "PCo 1 (57%)", ylab = "PCo 2 (0.87%)") # choices - axes to display
+plot(cc1,choices=axes2plot, type = 'n', xlab = "PCo 1 (44%)", ylab = "PCo 2 (8.4%)",
+     cex.lab = 1.5) # choices - axes to display
 abline(h=0, col="white", lty = 1, lwd = 5)
 abline(v=0, col="white", lty = 1, lwd = 5)
 box()
-points(cc,choices=axes2plot,pch=19,
-       col=ifelse(traits$Replicate == 1, "#FFB266", ifelse(traits$Replicate == 2, "#99CCFF", NA)))
+points(cc1,choices=axes2plot,pch=19,
+       col=ifelse(traits$Batch == 1, "#FFB266", ifelse(traits$Batch == 2, "#99CCFF", NA)))
 legend("right", legend = c("Group 1", "Group 2"), col = c('#FFB266', '#99CCFF'), 
   pch = c(19,19), bty = "n", pt.cex = 0.7, cex = 1, text.col = "black", horiz = F, inset = c(0, 1))
 
@@ -60,8 +62,8 @@ write.csv(cov_geno_scores, file = "cov_geno_scores.csv")
 # clustering / PCoA based on identity by state (IBS) based on single read resampling
 # (for low and/or uneven coverage)
 
-ma = as.matrix(read.table("mito.ibsMat"))
-ma.geno = as.matrix(read.table("allgenes.ibsMat"))
+ma = as.matrix(read.table("mito_traits.ibsMat"))
+ma.geno = as.matrix(read.table("myresult.ibsMat"))
 nam = gsub(".fq.trim.bam","",ids)
 names=gsub(".fq.trim.bam","",bams)
 dimnames(ma)=list(names,names)
@@ -96,7 +98,7 @@ abline(h=0, col="white", lty = 1, lwd = 5)
 abline(v=0, col="white", lty = 1, lwd = 5)
 box()
 points(cmd,choices=axes2plot,pch=19,
-       col=ifelse(traits$Replicate == 1, "#FFB266", ifelse(traits$Replicate == 2, "#99CCFF", NA)))
+       col=ifelse(traits$Batch == 1, "#FFB266", ifelse(traits$Batch == 2, "#99CCFF", NA)))
 legend("right", legend = c("Group 1", "Group 2"), col = c('#FFB266', '#99CCFF'), 
        pch = c(19,19), bty = "n", pt.cex = 0.7, cex = 1, text.col = "black", horiz = F, inset = c(0, 1))
 ordiellipse(cmd,choices= axes2plot,groups=k3$cluster,draw="polygon",label=T)
