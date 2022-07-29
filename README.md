@@ -34,3 +34,5 @@ performance_reorg_042120.csv - One of three datasets containing measured traits 
 traits_and_time.csv - One of three datasets containing measured traits from red drum. Includes timing between behavioral assay and tissue collection.
 
 trait_to_name.csv - associates trait names with human readable trait descriptions
+
+transcriptome.zip - zipped folder containing reference transcriptome fasta file and associated annotations.
