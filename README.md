@@ -1,7 +1,7 @@
 # Predator-evasion-networks-in-fish-larvae
 Samantha K. Smith, UT Austin, samksmith@utexas.edu
 
-This is the repository of data and scripts for a forthcoming paper analyzing RNA sequencing data from red drum larvae that underwent startle assays. Red drum reads used in this study will be available at the Short Read Archive (NCBI SRA) soon.
+This is the repository of data and scripts for a forthcoming paper analyzing RNA sequencing data from red drum larvae that underwent startle assays. Red drum reads used in this study are available at the Short Read Archive (NCBI SRA BioProject PRJNA759646; http:// www.ncbi.nlm.nih.gov/bioproject/759646).
 
 # Files
 
