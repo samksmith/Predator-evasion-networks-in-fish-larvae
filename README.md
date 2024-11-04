@@ -1,7 +1,9 @@
 # Predator-evasion-networks-in-fish-larvae
 Samantha K. Smith, UT Austin, samksmith@utexas.edu
 
-This is the repository of data and scripts for a forthcoming paper analyzing RNA sequencing data from red drum larvae that underwent startle assays. Red drum reads used in this study are available at the Short Read Archive (NCBI SRA BioProject PRJNA759646; http:// www.ncbi.nlm.nih.gov/bioproject/759646).
+This is the repository of data and scripts for a paper analyzing RNA sequencing data from red drum larvae that underwent startle assays. Red drum reads used in this study are available at the Short Read Archive (NCBI SRA BioProject PRJNA759646; http:// www.ncbi.nlm.nih.gov/bioproject/759646). 
+
+Smith, S.K., Aglyamova, G., Oberg, E.W., Fuiman, L.A. and Matz, M.V., 2023. Gene expression underlying variation in the survival skills of red drum larvae (Sciaenops ocellatus). Journal of Fish Biology, 103(3), pp.704-714.
 
 # Files
 
